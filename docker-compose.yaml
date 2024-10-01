@@ -1,22 +1,13 @@
 version: "3"
 services:
-  solr:
-    image: solr
-    ports:
-      - "8983:8983"
-    networks: [search]
-    environment:
-      ZK_HOST: "zoo:2181"
-    depends_on: [zoo]
-    volumes:
-      - ./.data/solr:/var/solr
-
-  zoo:
-    image: zookeeper:3.9
-    networks: [search]
-    environment:
-      ZOO_4LW_COMMANDS_WHITELIST: "mntr,conf,ruok"
-
-networks:
   search:
-    driver: bridge
+    image: getmeili/meilisearch:latest
+    ports:
+      - 7700:7700
+    volumes:
+      - ./.data/meili:/meili_data
+    entrypoint:
+      - meilisearch
+    command:
+      - --master-key
+      - xWMHVnYwrZjr8IkkdrjmnpaFw10_w_78PlfcUOsnlB0
